@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Ruby Fundamentals</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body {font-family: 'Droid Serif';}
+      h1, h2, h3 {font-family: 'Yanone Kaffeesatz';font-weight: 400;margin-bottom: 0;}
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {position: absolute;bottom: 3em;}
+      .image-medium img {width:250px;}
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {color: rgb(249, 38, 114);text-decoration: none;}
+      code {background: #e7e8e2;border-radius: 5px;}
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {float: left;width: 47%;}
+      .pull-right {float: right;width: 47%;}
+      .pull-right ~ p {clear: both;}
+      #slideshow .slide .content code {font-size: 0.8em;}
+      #slideshow .slide .content pre code {font-size: 0.9em;padding: 15px;}
+      .inverse {background: #272822;color: #777872;text-shadow: 0 0 20px #333;}
+      .inverse h1, .inverse h2 {color: #f3f3f3;line-height: 0.8em;}
+      #slide-inverse .footnote {bottom: 12px;left: 20px;}
+      #slide-how .slides {font-size: 0.9em;position: absolute;top:  151px;right: 140px;}
+      #slide-how .slides h3 {margin-top: 0.2em;}
+      #slide-how .slides .first, #slide-how .slides .second {padding: 1px 20px;height: 90px;width: 120px;-moz-box-shadow: 0 0 10px #777;-webkit-box-shadow: 0 0 10px #777;box-shadow: 0 0 10px #777;}
+      #slide-how .slides .first {background: #fff;position: absolute;top: 20%;left: 20%;z-index: 1;}
+      #slide-how .slides .second {position: relative;background: #fff;z-index: 0;}
+      .left-column {color: #777;width: 20%;height: 92%;float: left;}
+      .left-column h2:last-of-type, .left-column h3:last-child {color: #000;}
+      .right-column {width: 75%;float: right;padding-top: 1em;}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+#Fundamentos Ruby
+.footnote[Percheron Talks &#8212; 11 Agosto 2017]
+---
+layout: false
+.left-column[
+# Agenda
+]
+.right-column[
+- Historia
+
+- Instalación
+
+- Introducción a objetos
+
+- Tipos de dato
+
+- Cadenas
+
+- Ciclos y condicionales
+
+- Arrays y Hashes
+
+- Métodos
+
+- Clases
+
+- Módulos
+]
+---
+template: inverse
+## Historia de Ruby
+Yukihiro “Matz” Matsumoto
+
+.center[![Matz](http://68.media.tumblr.com/a2958a6053ba7fa45779f98eae8c85df/tumblr_inline_mp4x4bIpWG1qz4rgp.jpg)]
+
+*“Ruby es simple en apariencia, pero complejo por dentro, como el cuerpo humano”*
+???
+Ruby es un lenguaje interpretado y orientado a objetos creado en 1993 creado por Matz
+
+Combinó elementos de sus lenguajes favoritos (Perl, Smalltalk, Python, entre otros)
+
+De hecho el nombre Ruby se lo pusieron como broma haciendo referencia al lenguaje “Perl” (perla)
+
+El momento de mayor relevancia del lenguaje fue 2004 cuando David Heinenmeiser, a partir de su experiencia construyendo Basecamp con Ruby, compartió su implementación del módelo MVC: Ruby on Rails (RoR).
+---
+layout: false
+class: center, middle
+# Instalación (Windows 🤢)
+La manera más sencilla es a través de [Ruby Installer](https://rubyinstaller.org) 
+
+https://rubyinstaller.org
+---
+class: center, middle
+# Instalación (Linux 🐧)
+Para instalar en Linux tenemos varias opciones:
+
+&bull; Usar **rbenv**
+
+&bull; Usar **rvm** 
+
+&bull; O directamente desde el fuente
+
+https://gorails.com/setup
+???
+RBENV Recomendado, te permite instalar varias versiones de ruby y cambiar entre ellas a placer
+
+RVM Usado por los devs de la vieja escuela, es el mas intrusivo en cuestión de las modificaciones que hace en el shell, librerías, etc
+---
+class: center, middle
+# Instalación (OSX 👨🏻‍💻)
+No hay necesidad porque ya viene con una versión de Ruby instalada
+
+Si requieres la última versión disponible la puedes actualizar con **Homebrew**
+---
+class: center, middle
+# Instalación Lista
+Para asegurarnos de que tenemos ruby instalado:
+.left[
+```
+$ ruby -v
+ruby 2.0.0p648 (2015-12-16 revision 53162)
+```
+]
+Una vez instalado Ruby tenemos acceso a lo siguiente:
+
+&bull; ruby
+
+&bull; irb
+
+&bull; rake 
+
+&bull; gem
+???
+ruby - Comando para ejecutar tus programas escritos en Ruby
+
+irb - Comando para abrir un Ruby interactivo (Interactive Ruby Shell)
+
+rake - Es una utileria para ejecutar tareas, programas, generar documentacion 
+
+gem - Es el manejador de paquetes de ruby
+---
+template: inverse
+# Introducción a Objetos
+*“Todo en ruby es un objeto”*
+---
+layout: false
+## Introducción a Objetos
+
+* Todo en Ruby es un objeto: integers, characters, text, arrays, etc.
+
+```
+irb> 1.class
+=> Fixnum
+
+irb> 1.methods
+=> [:to_s, :inspect, :zero?, :odd?, :even?, ...]
+
+irb> 1.zero?
+=> false
+
+irb> 5.times { print "Ruby rifa ese!" }
+Ruby rifa ese!
+Ruby rifa ese!
+Ruby rifa ese!
+Ruby rifa ese!
+Ruby rifa ese!
+=> 5
+
+irb> 2.between? 1,3
+=> true
+```
+---
+template: inverse
+# Tipos de dato
+---
+layout: false
+## Tipos de dato
+```
+irb> "Ruby".class
+=> String
+
+irb> 1.class
+=> Fixnum
+
+irb> 1.5.class
+=> Float
+
+irb> :simbolo.class
+=> Symbol
+
+irb> [1,2].class
+=> Array
+
+irb> {:pingpong => "Deporte olímpico"}.class
+=> Hash
+
+irb> true.class
+=> TrueClass
+
+irb> false.class
+=> FalseClass
+
+irb> nil.class
+=> NilClass
+```
+???
+Simbolo es una cadena inmutable que ocupa el mismo espacio en memoria, gracias a esto son muy usados en Ruby
+
+El principal beneficio es el performance, p.e. si declaras una variable dos veces cada una esta apuntando a 
+espacios en memoria diferentes en cambio si declaras el mismo simbolo dos veces apunta al mismo espacio
+---
+template: inverse
+# Cadenas
+*String*
+
+.center.image-medium[![](http://www.whaiworld.com/wp-content/uploads/2016/06/CADENAS.jpg)]
+---
+layout: false
+## Cadenas
+* Se escriben dentro de comillas dobles o sencillas.
+* Por lo tanto `'Hola'` y `"Mundo"` crean instancias de cadenas.
+
+```
+irb> 'Hola' # String
+irb> "Hola" # String
+irb> 'Hola' + ' Mundo' # Concatenar cadenas
+```
+
+### Interpolación
+* La interpolación se logra utilizando `#{expresión}`
+* No solo puedes poner variables, puedes poner cualquier bloque de código ruby
+* Solo funciona con comillas dobles
+
+```
+irb> a = 1
+irb> b = 2
+irb> puts "El número #{a} es menor a #{b} y la suma es #{a + b}"
+=> "El número 1 es menor a 2 y la suma es 3"
+```
+
+---
+layout: false
+## Cadenas
+### Acento grave
+* Son strings especiales que usan el delimitador de acento grave
+* El string entre los acentos se envia directamente al sistema operativo como un comando a ser ejecutado
+* El resultado es recogido por Ruby y lo asigna o muestra en pantalla segun sea el caso
+
+```
+$ puts `pwd`
+/Users/albertojauregui/Developer/rubyfundamentals
+
+```
+
+### Explorar métodos
+- *reverse* invierte los caracteres de un string
+- *length* número de caracteres en un string
+- *upcase* pone todos los caracteres en mayúsculas
+- *capitalize* pone el primer caracter del string en mayúsculas
+- *include?* regresa verdadero si la cadena contiene otra cadena enviada como parametro
+
+---
+template: inverse
+# Ciclos y condicionales
+---
+layout: false
+## Ciclos
+While
+
+```
+i = 0
+num = 5
+
+while i < num  do
+   puts("Yei!")
+   i += 1
+end
+```
+
+Until
+
+```
+$i = 0
+$num = 5
+
+until $i > $num  do
+   puts("Yei!")
+   $i +=1;
+end
+```
+---
+layout: false
+## Ciclos
+For
+
+```
+for i in 0..5
+  puts "El valor de i es #{i}"
+end
+```
+
+Each
+
+```
+(0..5).each do |i|
+  puts "El valor de i es #{i}"
+end
+```
+
+Times
+
+```
+10.times do |num|
+  puts "El valor de num es #{num}"
+end
+```
+---
+layout: false
+## Condicionales
+
+### IF, ELSIF y ELSE
+
+```
+a = 3
+if a == 1
+  puts "Uno"
+elsif b == 2
+  puts "Dos"
+else
+  puts "Tres"
+end
+```
+
+### CASE
+```
+a = 10
+response = case 
+  when a % 2 == 10 then true
+  when a % != then false
+end
+puts response
+```
+---
+layout: false
+## Condicionales
+
+### UNLESS
+```
+nombre = 'Hugo'
+unless nombre == 'Paco'
+  puts 'Ese nombre es mio, ni te le acerques es mio'
+end
+```
+---
+template: inverse
+# Arrays y Hashes
+---
+layout: false
+## Arrays
+
+- Para declarar un array puedes utilizar `[]` o tambien puedes utilizar `Array.new`
+- Los arreglos en ruby permiten guardar todo tipo de datos en cualquier combinación
+- Para acceder a los valores utilizamos un índice comenzando desde cero `[0]`
+
+```
+irb> sabor = "mango"
+irb> arr = [80.5, sabor, [true, false]]
+```
+
+- Para agregar un elemento al array utilizamos `<<`
+
+```
+irb> arr << "un elemento más"
+=> [80.5, sabor, [true, false], "un elemento más"]
+```
+
+### Recorrer arreglos
+- Para recorrer arreglos podemos utilizar métodos como `each` por ejemplo:
+
+```
+[1,2,3].each do |item|
+  puts item
+end
+```
+???
+Un arreglo es una coleccion de datos, Ordenados e Indexados
+
+Si tratamos de acceder a un indice que no existe, a diferencia de otros lenguajes, no obtendremos un error sino que obtendremos nil como respuesta
+
+Si pasamos un indice negativo accederemos a los datos de derecha a izquierda
+
+Podemos agregar tambien elementos al final del array con el metodo .push ([1,2,3].push 4)
+
+Si lo que necesitamos es agregar un elemento al principio hacemos uso del metodo .unshift ([1,2,3].unshift 0)
+
+Algo muy interesante es que podemos hacer operaciones aritmeticas con los arrays 
+
+[1,2] + [3,4] = [1,2,3,4]
+
+[1] * 3 = [1,1,1]
+---
+layout: false
+## Arrays
+
+### Filtrar elementos
+
+```
+# Selecciona los numeros pares
+irb> [1,2,3,4,5,6].select {|number| number % 2 == 0}
+```
+
+### Borrar elementos
+
+```
+# Elimina los elementos menores a 4
+irb> [1,2,3,4,5,6,7].delete_if{|i| i < 4 } 
+```
+
+### Otros métodos
+
+```
+arr.sort # Ordena los elementos de un array
+
+arr.length # Regresa el tamaño del array
+
+arr.first # Regresa el primer elemento
+
+arr.last # Regresa el último elemento
+```
+---
+layout: false
+## Hashes
+
+- Estructura de datos representada por una llave y un valor
+- La llave nos sirve como elemento para acceder al valor con el que esta relacionada
+
+``` 
+irb> numbers = {'uno' => 1, 'dos'=> 2, :tres => 3, cuatro: 4}
+=> {"uno"=>1, "dos"=>2, :tres=>3, :cuatro=>4}
+
+irb> numbers['dos']
+=> 2
+
+irb> numbers[:tres]
+=> 3
+
+# Métodos
+irb> numbers.has_key? :cuatro
+=> true
+
+irb> numbers.has_value? 1
+=> true
+
+irb> numbers.keys
+=> ["uno", "dos", :tres, :cuatro]
+
+irb> numbers.values
+=> [1, 2, 3, 4]
+``` 
+
+???
+En un hash no pueden haber dos elementos con la misma llave, pero si puede haber dos elementos con el mismo valor
+
+Comparado con los Arrays la ventaja mas significativa es que podemos utilizar cualquier objeto como indice 
+
+La forma mas comun de representar una llave es usando simbolos, ademas que es la mas optima en cuestion de espacio en memoria que ocupa
+
+Un hash puede contener como valor, tipos de datos primitivos, como Strings, Integers, o incluso arrays u otro hash
+
+Los hashes tienen un valor por defecto, si un indice no existe nos devuele nil
+---
+template: inverse
+# Métodos
+---
+layout: false
+## Métodos
+
+- Para definir un metodo utilizamos la palabra clave `def` seguido del nombre del metodo
+- Los nombres de métodos como las variables siguen la convención de `snake_case`
+- El final del metodo se marca con la palabra clave `end`
+- En Ruby la última evaluación que se realiza en el cuerpo de un método es el resultado que se retorna
+
+```
+def area_del_triangulo(base, altura = 5)
+  (base * altura) / 2
+end
+
+irb> area_del_triangulo 1, 3
+=> 1.5
+
+irb> area_del_triangulo
+
+ArgumentError: wrong number of arguments (0 for 1..2)
+from (irb):24:in `area_del_triangulo'
+from (irb):27
+from /usr/bin/irb:12:in <main>
+```
+???
+Existe la palabra clave `return` pero no se usa muy seguido a menos que quieras terminar la ejecución de un metodo antes de que llegue al final
+
+Si un metodo necesita parámetros los definimos dentro de paréntesis al final del nombre del metodo
+
+---
+layout: false
+## Métodos - Parámetros
+
+- Los parámetros se pasan en el orden en que están definidos en la declaración de la función
+- Pero también podemos enviar un `Hash` como parámetro
+
+```
+def area_del_triangulo(params = {})
+  base = params[:base] || 1
+  altura = params[:altura] || 1
+
+  (base * altura) / 2.0
+end
+
+irb> area_del_triangulo altura: 3, base: 1
+=> 1.5
+```
+---
+layout: false
+## Métodos - Parámetros
+
+- Una última variación es recibir un número ilimitado de parámetros
+- Se utiliza el operador `splat`
+- La unica restricción es que debe ser el ultimo parámetro en la definición de una función
+
+```
+
+def multi_parametros(*params)
+  puts "Parametro 1 #{params[0]}"
+  puts "Parametro 2 #{params[1]}"
+  puts "Parametro 3 #{params[2]}"
+  puts "Parametro 4 #{params[3]}"
+  puts "Parametro 5 #{params[4]}"
+end
+
+irb> multi_parametros 'a', 'b', 'c', 1, 2
+Parametro 1 a
+Parametro 2 b
+Parametro 3 c
+Parametro 4 1
+Parametro 5 2
+=> nil
+
+```
+---
+template: inverse
+# Clases
+---
+layout: false
+## Clases
+
+- Es un plano o plantilla para construir un tipo específico de objeto
+- Cada objeto es construido de un clase
+- Cada clase debe ser diseñada y programada para lograr una y solo una cosa (principio de responsabilidad única)
+- Para definir una nueva clase utilizamos la palabra reservada `class`
+- La convención de nombre para una clase en Ruby es que el nombre es capitalizado
+
+```
+# Creando 
+class Persona
+
+end
+
+# Instanciando 
+irb> persona = Persona.new
+=> #<Persona:0x007fab658d2f30>
+
+irb> persona.class
+=> Persona
+```
+???
+La madre de todos los objetos es una clase
+
+---
+class: center, middle
+## Clases - Métodos
+
+Las clases tienen atributos y métodos
+
+Los métodos solo se pueden utilizar sobre un objeto que sea instanciado de una clase
+
+.left[
+```
+class Persona
+  def saludar
+    puts "Hola, soy una persona"
+  end
+end
+
+irb> persona = Persona.new
+=> #<Persona:0x007fab658d2f30>
+
+irb> persona.saludar
+Hola, soy una persona
+=> nil
+```
+]
+---
+class: center, middle
+## Clases - Constructor
+
+.left[
+```
+class Persona
+  
+  def initialize(nombre)
+    @nombre = nombre
+  end
+
+  def saludar
+    puts "Hola, soy una persona de nombre #{@nombre}"
+  end
+
+end
+
+irb> persona = Persona.new('Alberto')
+=> #<Persona:0x007fab658d2f30>
+
+irb> persona.saludar
+Hola, soy una persona de nombre Alberto
+=> nil
+```
+]
+???
+Alcance de las variables
+
+variable - Son variables locales, mueren cuando termina el bloque que las contiene
+@variable - Son variables de instancia, existe en cada copia de la clase pero no tiene el mismo valor de las demas
+$variable - Son variables globales, accesibles desde cualquier parte del programa
+---
+template: inverse
+# Módulos
+---
+layout: false
+## Módulos
+
+- Son similares a las clases en que contienen una colección de métodos, constantes y otros módulos y definiciones.
+- Se usan comúnmente para "agrupar"
+- La principal diferencia entre heredar de una clase y usar un módulo, es que puedes usar más de un módulo al mismo tiempo
+- Se pueden utilizar como *librerias* o *mixins*
+---
+class: center, middle
+## Módulos como librerías
+
+.left[
+```
+
+module​ Trigonometria​
+  PI = 3.141592654
+  ​
+  def​ Trigonometria.sin(x)
+    ​# ...
+​  end​
+​
+​  def​ Trigonometria.cos(x)
+    ​# ..​.
+​  end​
+​end
+
+irb> require_relative 'trigonometria'
+=> true
+
+irb> Trigonometria.sin(2)
+=> 0.034899
+​
+```
+]
+---
+class: center, middle
+## Módulos como mixins
+
+.left[
+```
+module Debug
+  def​ hagamos_mixins
+    "​#{self.class.name}​ (id: ​#{self.object_id}​): ​#{self.name}​"​
+  end​
+end
+```
+]
+---
+class: center, middle
+## Módulos como mixins
+
+.left[
+```
+require_relative 'debug'
+
+class Persona
+  include Debug
+  
+  # Constructor, métodos, etc.
+end
+```
+]
+---
+class: center, middle
+## Módulos como mixins
+
+.left[
+```
+irb> x = Persona.new('Alberto')
+=> #<Persona:0x007fc88e027868 @nombre="Alberto">
+
+irb> x.hagamos_mixins
+=> "Persona (id: 70232522069860): ALBERTO"
+```
+]
+---
+class: center, middle
+layout: false
+# ¿Preguntas? ¿Dudas?
+---
+
+name: last-page
+template: inverse
+
+# ¡ Gracias !
+
+patrocinado por Percheron Talks.
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script>
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="https://remarkjs.com/remark.language.js"></script>
+    <script>
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+          highlightLanguage: 'ruby',
+          highlightLines: true,
+          ratio: '16:9'
+        }) ;
+    </script>
+  </body>
+</html>
